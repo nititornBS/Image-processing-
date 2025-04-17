@@ -10,6 +10,12 @@ class ShelfDetectorApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Shelf Detection")
+
+        # Set a fixed size for the main window
+        self.max_width = 1000
+        self.max_height = 700
+        self.root.geometry(f"{self.max_width}x{self.max_height}")
+
         self.canvas = None
         self.image = None
         self.original_image = None
@@ -23,20 +29,19 @@ class ShelfDetectorApp:
         self.rect_start = None
         self.draw_rect_mode = False
 
-        self.max_width = 800
-        self.max_height = 600
-
         self.upload_button = tk.Button(self.root, text="Upload Image", command=self.upload_image)
         self.upload_button.pack()
 
-        self.canvas_frame = tk.Frame(self.root)
-        self.canvas_frame.pack()
+        # Expand the canvas frame
+        self.canvas_frame = tk.Frame(self.root, width=self.max_width, height=self.max_height-150)
+        self.canvas_frame.pack(expand=True, fill=tk.BOTH)
 
         self.process_button = tk.Button(self.root, text="Process Image", command=self.process_image)
         self.process_button.pack()
 
         self.count_label = tk.Label(self.root, text="Number of gaps: 0")
         self.count_label.pack()
+
 
     def upload_image(self):
         file_path = filedialog.askopenfilename(filetypes=[("Image Files", "*.jpg;*.png;*.jpeg")])
@@ -169,6 +174,7 @@ class ShelfDetectorApp:
         roi_rgb = cv2.cvtColor(roi, cv2.COLOR_BGR2RGB)
         plt.figure(figsize=(10, 3))
         plt.imshow(roi_rgb)
+        plt.title(f"Selected Shelf Region with Detected Gaps (Total: {total_gaps})")
         plt.title("Selected Shelf Region with Detected Gaps")
         plt.axis("off")
         plt.show()
