@@ -105,6 +105,6 @@ def detect_shelves_manually(image_path, manual_lines):
         plt.show()
 
 # Example usage
-image_path = "4.jpg"  # Replace with your image
+image_path = "./image/4.jpg"  # Replace with your image
 manual_lines = [440, 1800, 3400]
 detect_shelves_manually(image_path, manual_lines)
